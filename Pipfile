@@ -6,11 +6,21 @@ name = "pypi"
 [packages]
 fastapi = "*"
 uvicorn = "*"
+alembic = "*"
+click = "*"
+dynaconf = "*"
+sqlalchemy = "*"
+pydantic = "*"
+python-jose = "*"
+passlib = {extras = ["bcrypt"], version = "*"}
+python-multipart = "*"
+mysqlclient = "*"
 
 [dev-packages]
 pytest = "*"
 pytest-asyncio = "*"
 requests = "*"
+isort = "*"
 
 [requires]
 python_version = "3.7"

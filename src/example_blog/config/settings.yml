@@ -1,0 +1,37 @@
+
+HOST: 127.0.0.1
+PORT: 8000
+
+DEBUG: False
+
+
+
+# ######################################################################################################
+# LOG
+LOG_PATH:
+# log level: DEBUG INFO WARNING ERROR
+LOG_LEVEL: INFO
+
+
+
+# ######################################################################################################
+# # Auth
+SECRET_KEY: "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
+ALGORITHM: HS256
+ACCESS_TOKEN_EXPIRE_MINUTES: 30
+
+
+# ######################################################################################################
+# # https://docs.sqlalchemy.org/en/13/core/engines.html
+#DATABASE:
+#  DEIVER: sqlite
+#  NAME: example_blog.sqlite
+
+DATABASE:
+  DEIVER: mysql
+  DATABASE: example_blog
+  HOST: 127.0.0.1
+  PORT: 8080
+  USERNAME: root
+  PASSWORD: root
+  QUERY: charset=utf8bm4

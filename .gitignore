@@ -211,3 +211,5 @@ Temporary Items
 
 .vscode
 .idea
+
+**/settings.local.yml
