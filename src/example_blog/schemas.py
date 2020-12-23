@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 
 from pydantic import BaseModel, constr
 
@@ -10,21 +11,19 @@ class InDBMixin(BaseModel):
         orm_mode = True
 
 
-class BaseUser(BaseModel):
-    name: constr(max_length=500)
-    password: constr(max_length=1024)
-    create_time: datetime = None
+class BaseArticle(BaseModel):
+    title: constr(max_length=500)
+    body: Optional[str] = None
 
 
-class UserSchema(BaseUser, InDBMixin):
-    name: constr(max_length=500)
-    password: constr(max_length=1024)
-    create_time: datetime = None
+class ArticleSchema(BaseArticle, InDBMixin):
+    create_time: datetime
+    update_time: datetime
 
 
-class CreateUserSchema(BaseUser):
+class CreateArticleSchema(BaseArticle):
     pass
 
 
-class UpdateUserSchema(BaseUser):
-    pass
+class UpdateArticleSchema(BaseArticle):
+    title: Optional[constr(max_length=500)] = None

@@ -1,15 +1,13 @@
 """Utils"""
 import asyncio
-from datetime import datetime, timedelta
+import contextlib
+import os
 from functools import partial
-from typing import Any, Optional, TypeVar
+from os import PathLike
+from typing import Any, TypeVar, Union
 
-from jose import JWTError, jwt
-from passlib.context import CryptContext
 from pydantic import BaseModel as SchemaModel
 
-from example_blog.config import settings
-from example_blog.exceptions import CredentialsException
 from example_blog.models import BaseModel
 
 ModelType = TypeVar('ModelType', bound=BaseModel)
@@ -31,34 +29,9 @@ async def run_in_executor(func, *args, **kwargs) -> Any:
     return await loop.run_in_executor(executor, partial(func, *args, **kwargs))
 
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-
-def verify_password(plain_password, hashed_password):
-    """使用明文和密文验证是否一致"""
-    return pwd_context.verify(plain_password, hashed_password)
-
-
-def get_password_hash(password):
-    return pwd_context.hash(password)
-
-
-def create_access_token(data: dict):
-    """create jwt token"""
-    to_encode = data.copy()
-    expire = datetime.utcnow() + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
-    to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
-    return encoded_jwt
-
-
-def verify_credential(token: str) -> str:
-    """verify jwt token"""
-    try:
-        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
-        username: str = payload.get("sub")
-        if username is None:
-            raise CredentialsException()
-    except JWTError:
-        raise CredentialsException()
-    return username
+@contextlib.contextmanager
+def chdir(path: Union[str, PathLike]):
+    cwd = os.getcwd()
+    os.chdir(path)
+    yield
+    os.chdir(cwd)

@@ -9,9 +9,7 @@ from example_blog.log import init_log
 
 class Server:
 
-    def __init__(
-            self,
-    ):
+    def __init__(self):
         init_log()
         self.app = FastAPI()
 
@@ -26,7 +24,3 @@ class Server:
             host=settings.HOST,
             port=settings.PORT,
         )
-
-
-if __name__ == '__main__':
-    Server().run()

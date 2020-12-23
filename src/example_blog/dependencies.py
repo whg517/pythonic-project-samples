@@ -1,32 +1,17 @@
-
-from fastapi import Depends, Request
-from fastapi.security import OAuth2PasswordBearer
+from fastapi import Request
 from sqlalchemy.orm import Session
-
-from example_blog.services import user_service
 
 
 def get_db(request: Request) -> Session:
     return request.state.db
 
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
-
-
-def get_current_user(session: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
-    return user_service.get_current_user(session, token)
-
-
 class CommonQueryParams:
-    def __init__(
-            self,
-            # filters: Optional[List[str]] = Query(None, title='Filters', description='key=value'),
-            # sorts: Optional[List[str]] = Query(None, title='Filters', description='key,desc'),
-            page: int = 1,
-            size: int = 3
+    def __init__(self, offset: int = 1, limit: int = 10):
+        self.offset = offset - 1
+        if self.offset < 0:
+            self.offset = 0
+        self.limit = limit
 
-    ):
-        self.page = page
-        self.size = size
-        # self.filters = filters
-        # self.sorts = sorts
+        if self.limit < 0:
+            self.limit = 10

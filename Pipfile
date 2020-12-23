@@ -11,9 +11,6 @@ click = "*"
 dynaconf = "*"
 sqlalchemy = "*"
 pydantic = "*"
-python-jose = "*"
-passlib = {extras = ["bcrypt"], version = "*"}
-python-multipart = "*"
 mysqlclient = "*"
 
 [dev-packages]
@@ -21,6 +18,10 @@ pytest = "*"
 pytest-asyncio = "*"
 requests = "*"
 isort = "*"
+pytest-cov = "*"
+flake8 = "*"
+tox = "*"
+pytest-mock = "*"
 
 [requires]
 python_version = "3.7"

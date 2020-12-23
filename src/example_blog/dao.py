@@ -3,22 +3,21 @@ from typing import Generic, List
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
-from example_blog.models import User, Article
-from example_blog.schemas import CreateUserSchema
+from example_blog.models import Article
 from example_blog.utils import CreateSchema, ModelType, UpdateSchema
 
 
 class BaseDAO(Generic[ModelType, CreateSchema, UpdateSchema]):
     model: ModelType
 
-    def get(self, session: Session, skip=0, limit=10) -> List[ModelType]:
-        result = session.query(self.model).offset(skip).limit(limit).all()
+    def get(self, session: Session, offset=0, limit=10) -> List[ModelType]:
+        result = session.query(self.model).offset(offset).limit(limit).all()
         return result
 
     def get_by_id(self, session: Session, pk: int, ) -> ModelType:
         return session.query(self.model).get(pk)
 
-    def create(self, session: Session, obj_in: CreateUserSchema) -> ModelType:
+    def create(self, session: Session, obj_in: CreateSchema) -> ModelType:
         """Create"""
         obj = self.model(**jsonable_encoder(obj_in))
         session.add(obj)
@@ -40,16 +39,10 @@ class BaseDAO(Generic[ModelType, CreateSchema, UpdateSchema]):
         """Delete"""
         obj = self.get_by_id(session, pk)
         session.delete(obj)
+        session.commit()
 
     def count(self, session: Session):
         return session.query(self.model).count()
-
-
-class UserDAO(BaseDAO):
-    model = User
-
-    def get_by_name(self, session: Session, name: str) -> User:
-        return session.query(self.model).filter(self.model.name == name).first()
 
 
 class ArticleDAO(BaseDAO):

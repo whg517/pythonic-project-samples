@@ -1,9 +1,11 @@
 """Command line frontend"""
+from pathlib import Path
 
 import click
-from alembic.config import CommandLine
+from alembic import config
+from click import Context
 
-from example_blog import __version__
+from example_blog import __version__, utils
 from example_blog.config import settings
 from example_blog.server import Server
 
@@ -14,13 +16,13 @@ from example_blog.server import Server
 def main(ctx, version):
     if version:
         click.echo(__version__)
-    if ctx.invoked_subcommand is None:
+    elif ctx.invoked_subcommand is None:
         click.echo(ctx.get_help())
 
 
 @main.command()
 @click.option('-h', '--host', show_default=True, help=f'Host IP. Default: {settings.HOST}')
-@click.option('-p', '--port', show_default=True, help=f'Port. Default: {settings.PORT}')
+@click.option('-p', '--port', show_default=True, type=int, help=f'Port. Default: {settings.PORT}')
 @click.option('--level', help='Log level')
 @click.option('--file', help='logfile')
 def server(host, port, level, file):
@@ -38,5 +40,13 @@ def server(host, port, level, file):
     Server().run()
 
 
-if __name__ == '__main__':
-    main()
+@main.command()
+@click.pass_context
+@click.option('-h', '--help', is_flag=True)
+@click.argument('args', nargs=-1)
+def migrate(ctx: Context, help, args):
+    with utils.chdir(Path(__file__).parent / 'migration'):
+        argv = list(args)
+        if help:
+            argv.append('--help')
+        config.main(prog=ctx.command_path, argv=argv)
