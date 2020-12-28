@@ -1,7 +1,13 @@
 from datetime import datetime
-from typing import Optional
+from typing import Optional, TypeVar
 
 from pydantic import BaseModel, constr
+
+from example_blog.models import BaseModel as DBModel
+
+ModelType = TypeVar('ModelType', bound=DBModel)
+CreateSchema = TypeVar('CreateSchema', bound=BaseModel)
+UpdateSchema = TypeVar('UpdateSchema', bound=BaseModel)
 
 
 class InDBMixin(BaseModel):

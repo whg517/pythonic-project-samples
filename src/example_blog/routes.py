@@ -1,11 +1,11 @@
 from fastapi import APIRouter, FastAPI
 
-from example_blog.views import article
+from example_blog import views
 
 
 def router_v1():
     router = APIRouter()
-    router.include_router(article.router, tags=['Article'])
+    router.include_router(views.router, tags=['Article'])
     return router
 
 

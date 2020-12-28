@@ -6,14 +6,6 @@ from functools import partial
 from os import PathLike
 from typing import Any, TypeVar, Union
 
-from pydantic import BaseModel as SchemaModel
-
-from example_blog.models import BaseModel
-
-ModelType = TypeVar('ModelType', bound=BaseModel)
-CreateSchema = TypeVar('CreateSchema', bound=SchemaModel)
-UpdateSchema = TypeVar('UpdateSchema', bound=SchemaModel)
-
 
 async def run_in_executor(func, *args, **kwargs) -> Any:
     """

@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from example_blog.dao import ArticleDAO, BaseDAO
 from example_blog.models import Article
-from example_blog.utils import CreateSchema, ModelType, UpdateSchema
+from example_blog.schemas import CreateSchema, ModelType, UpdateSchema
 
 
 class BaseService(Generic[ModelType, CreateSchema, UpdateSchema]):

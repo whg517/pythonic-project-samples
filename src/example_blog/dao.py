@@ -4,7 +4,7 @@ from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
 from example_blog.models import Article
-from example_blog.utils import CreateSchema, ModelType, UpdateSchema
+from example_blog.schemas import CreateSchema, ModelType, UpdateSchema, CreateArticleSchema, UpdateArticleSchema
 
 
 class BaseDAO(Generic[ModelType, CreateSchema, UpdateSchema]):
@@ -45,5 +45,5 @@ class BaseDAO(Generic[ModelType, CreateSchema, UpdateSchema]):
         return session.query(self.model).count()
 
 
-class ArticleDAO(BaseDAO):
+class ArticleDAO(BaseDAO[Article, CreateArticleSchema, UpdateArticleSchema]):
     model = Article
