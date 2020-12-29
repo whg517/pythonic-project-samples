@@ -1,24 +1,9 @@
 """Utils"""
-import asyncio
+
 import contextlib
 import os
-from functools import partial
 from os import PathLike
-from typing import Any, TypeVar, Union
-
-
-async def run_in_executor(func, *args, **kwargs) -> Any:
-    """
-    如果自定义 executor 请在 kwargs 中传入。
-    :param func:
-    :param kwargs:
-        : kwargs func 的字典参数
-        : executor 自定义 executor
-    :return:
-    """
-    executor = kwargs.pop('executor', None)
-    loop = asyncio.get_running_loop()
-    return await loop.run_in_executor(executor, partial(func, *args, **kwargs))
+from typing import Union
 
 
 @contextlib.contextmanager

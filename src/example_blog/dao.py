@@ -1,6 +1,5 @@
 from typing import Generic, List
 
-from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
 from example_blog.models import Article
@@ -14,12 +13,12 @@ class BaseDAO(Generic[ModelType, CreateSchema, UpdateSchema]):
         result = session.query(self.model).offset(offset).limit(limit).all()
         return result
 
-    def get_by_id(self, session: Session, pk: int, ) -> ModelType:
+    def get_by_id(self, session: Session, pk: int) -> ModelType:
         return session.query(self.model).get(pk)
 
     def create(self, session: Session, obj_in: CreateSchema) -> ModelType:
         """Create"""
-        obj = self.model(**jsonable_encoder(obj_in))
+        obj = self.model(**obj_in.dict())
         session.add(obj)
         session.commit()
         return obj

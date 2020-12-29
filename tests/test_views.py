@@ -3,7 +3,7 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.responses import Response
 
 from example_blog.models import Article
-from example_blog.utils import ModelType
+from example_blog.schemas import ModelType
 
 
 def test_docs(client):
