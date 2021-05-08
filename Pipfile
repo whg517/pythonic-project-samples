@@ -1,0 +1,19 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[packages]
+dynaconf = "*"
+click = "*"
+
+[dev-packages]
+tox = "*"
+pylint = "*"
+isort = "*"
+pytest = "*"
+pytest-cov = "*"
+file2mongo = {editable = true, path = "."}
+
+[requires]
+python_version = "3.7"
