@@ -4,7 +4,9 @@ from click import Context
 
 from file2mongo import __version__
 from file2mongo.config import settings
+from file2mongo.exceptions import BaseError
 from file2mongo.log import init_log
+from file2mongo.transform import file_to_mongo
 
 
 @click.group(invoke_without_command=True)
@@ -38,4 +40,7 @@ def main(ctx: Context, version: str, verbose: bool, debug: bool):
 def run():
     """Run command"""
     init_log()
-    click.echo('run......')
+    try:
+        file_to_mongo()
+    except BaseError as ex:
+        click.echo(ex, err=True)

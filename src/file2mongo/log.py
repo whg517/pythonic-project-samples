@@ -27,7 +27,10 @@ def update_log_level(debug: bool, level: str) -> str:
 
 def init_log() -> None:
     """Init log config."""
-    log_level = update_log_level(settings.DEBUG, str(settings.LOGLEVEL).upper())
+    log_level = update_log_level(
+        settings.DEBUG,
+        str(settings.LOGLEVEL).upper()
+    )
 
     log_config = {
         "version": 1,

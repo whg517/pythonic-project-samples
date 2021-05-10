@@ -6,6 +6,7 @@ from click.testing import CliRunner
 
 from file2mongo import __version__
 from file2mongo.cmdline import main
+from file2mongo.exceptions import BaseError
 
 
 @pytest.mark.parametrize(
@@ -15,7 +16,6 @@ from file2mongo.cmdline import main
         (['--help'], 0, 'help'),
         (['--version'], 0, __version__),
         (['-V'], 0, __version__),
-        (['--debug', '--verbose', 'run'], 0, 'run'),
     ]
 )
 def test_main(
@@ -28,3 +28,21 @@ def test_main(
     result = clicker.invoke(main, invoke_args)
     assert result.exit_code == exit_code
     assert output_keyword in result.output
+
+
+def test_run(clicker: CliRunner, mocker):
+    """Test cmd run"""
+    mock_func = mocker.patch('file2mongo.cmdline.file_to_mongo')
+    clicker.invoke(main, 'run')
+    assert mock_func.called
+
+
+def test_run_error(clicker: CliRunner, mocker):
+    """Test cmd run error"""
+    mock_func = mocker.patch(
+        'file2mongo.cmdline.file_to_mongo',
+        side_effect=BaseError('foo')
+    )
+    result = clicker.invoke(main, 'run')
+    assert mock_func.called
+    assert 'foo' in result.output

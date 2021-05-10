@@ -6,6 +6,7 @@ verify_ssl = true
 [packages]
 dynaconf = "*"
 click = "*"
+pymongo = "*"
 
 [dev-packages]
 tox = "*"
@@ -13,7 +14,7 @@ pylint = "*"
 isort = "*"
 pytest = "*"
 pytest-cov = "*"
-file2mongo = {editable = true, path = "."}
+pytest-mock = "*"
 
 [requires]
 python_version = "3.7"

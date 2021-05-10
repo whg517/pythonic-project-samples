@@ -2,3 +2,11 @@ verbose: false
 debug: false
 loglevel: warning
 logpath: /tmp/file2mongo
+
+characterset: utf-8
+
+file_path:
+
+mongodb_uri:
+mongodb_database_name:
+mongodb_collection_name:
