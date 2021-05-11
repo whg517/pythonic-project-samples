@@ -15,6 +15,7 @@ isort = "*"
 pytest = "*"
 pytest-cov = "*"
 pytest-mock = "*"
+build = "*"
 
 [requires]
 python_version = "3.7"
